@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Adapter;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.karrel.mylibrary.RLog;
 
@@ -59,14 +60,15 @@ public class MemoRecyclerView extends FrameLayout implements MemoRecyclerPresent
     @Override
     public void initChildViews() {
         RLog.d();
-        FrameLayout parent = binding.frameLayout;
+        RelativeLayout parent = binding.parent;
 
-        parent.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
-            RLog.d(String.format("parent width : %s, height : %s", parent.getMeasuredWidth(), parent.getMeasuredHeight()));
+        // 뷰를 중앙에 추가 해야한다
+        // 다음 추가할 뷰는 중앙에서 조금 이동해서 추가해야한다
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-            View view = adapter.getView(0, null, parent);
-            parent.addView(view);
-        });
+        View view = adapter.getView(0, null, parent);
+        parent.addView(view, params);
+
 
     }
 }
