@@ -4,19 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="flipview.com.karrel.memorecyclerview.view.MainActivity">
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:background="#F6EC77">
 
-
-        <flipview.com.karrel.memorecycler.view.MemoRecyclerView
-            android:id="@+id/memoRecyclerView"
+        <TextView
+            android:id="@+id/text"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="메모입니다." />
 
     </android.support.constraint.ConstraintLayout>
 

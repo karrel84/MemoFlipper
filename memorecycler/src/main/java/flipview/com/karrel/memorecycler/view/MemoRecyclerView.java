@@ -4,9 +4,15 @@ package flipview.com.karrel.memorecycler.view;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Adapter;
 import android.widget.FrameLayout;
+
+import com.karrel.mylibrary.RLog;
 
 import flipview.com.karrel.memorecycler.R;
 import flipview.com.karrel.memorecycler.databinding.ViewMemorecyclerBinding;
@@ -47,6 +53,20 @@ public class MemoRecyclerView extends FrameLayout implements MemoRecyclerPresent
 
     public void setAdapter(Adapter adapter) {
         this.adapter = adapter;
+        presenter.addAdapter();
     }
 
+    @Override
+    public void initChildViews() {
+        RLog.d();
+        FrameLayout parent = binding.frameLayout;
+
+        parent.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            RLog.d(String.format("parent width : %s, height : %s", parent.getMeasuredWidth(), parent.getMeasuredHeight()));
+
+            View view = adapter.getView(0, null, parent);
+            parent.addView(view);
+        });
+
+    }
 }

@@ -9,7 +9,10 @@ import flipview.com.karrel.memorecycler.view.EventView;
 public interface MemoRecyclerPresenter {
     EventView.EventViewListener eventListener();
 
+    void addAdapter();
+
     interface View {
 
+        void initChildViews();
     }
 }
