@@ -45,26 +45,29 @@ public class MemoRecyclerPresenterImpl implements MemoRecyclerPresenter {
         @Override
         public void onUp(MotionEvent e) {
             RLog.d(String.format("\nx : %s, y : %s", e.getX(), e.getY()));
+            view.animOrigin();
         }
 
         @Override
         public void swipeLeft(long duration) {
-            RLog.d("\n" + duration + "");
+            RLog.e("\n" + duration + "");
         }
 
         @Override
         public void swipeRight(long duration) {
-            RLog.d("\n" + duration + "");
+            RLog.e("\n" + duration + "");
         }
 
         @Override
         public void swipeTop(int duration) {
-            RLog.d("\n" + duration + "");
+            RLog.e("\n" + duration + "");
+            view.moveTop(duration);
         }
 
         @Override
         public void swipeBottom(int duration) {
-            RLog.d("\n" + duration + "");
+            RLog.e("\n" + duration + "");
+            view.moveDown(duration);
         }
 
         @Override

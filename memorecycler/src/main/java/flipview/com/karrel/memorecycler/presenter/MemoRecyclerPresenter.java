@@ -24,5 +24,11 @@ public interface MemoRecyclerPresenter {
         void removeGloablLayoutListener();
 
         void moveMemoView(float gapY);
+
+        void animOrigin();
+
+        void moveTop(int duration);
+
+        void moveDown(int duration);
     }
 }

@@ -7,12 +7,16 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.karrel.mylibrary.RLog;
+
 /**
  * Created by Rell on 2017. 12. 7..
  * <p>
  * 사용자의 터치이벤트를 가지고 플링과 스크롤의 이벤트를 전달해주는 뷰이다.
  */
 public class EventView extends View {
+
+
     public interface EventViewListener {
 
         void onUp(MotionEvent event);
@@ -102,7 +106,7 @@ public class EventView extends View {
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            return false;
+            return true;
         }
 
         @Override
@@ -117,14 +121,8 @@ public class EventView extends View {
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-
-            if (e1.getRawX() - e2.getRawX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                swipeLeft(getDuration(e1, e2, (int) velocityX, (int) velocityY));
-                return true;
-            } else if (e2.getRawX() - e1.getRawX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                swipeRight(getDuration(e1, e2, (int) velocityX, (int) velocityY));
-                return true;
-            }
+            RLog.e("onFling");
+            RLog.d(String.format("gap x : %s", e1.getRawX() - e2.getRawX()));
 
             if (e1.getRawY() - e2.getRawY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
                 swipeTop(getDuration(e1, e2, (int) velocityX, (int) velocityY));
@@ -134,7 +132,7 @@ public class EventView extends View {
                 return true;
             }
 
-            return false;
+            return true;
         }
     };
 
@@ -223,7 +221,6 @@ public class EventView extends View {
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
             listener.onUp(event);
-            return true;
         }
 
         return detector.onTouchEvent(event);

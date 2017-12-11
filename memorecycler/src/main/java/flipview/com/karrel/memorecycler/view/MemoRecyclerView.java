@@ -125,4 +125,32 @@ public class MemoRecyclerView extends FrameLayout implements MemoRecyclerPresent
         Rect rect = (Rect) memoView.getTag();
         memoView.setY(rect.top + gapY);
     }
+
+    @Override
+    public void animOrigin() {
+        // 뷰를 원래의 자리로 되돌려 놓는다.
+        RelativeLayout parent = binding.parent;
+        View memoView = parent.getChildAt(parent.getChildCount() - 1);
+        Rect rect = (Rect) memoView.getTag();
+
+        memoView.animate().translationY(rect.top);
+    }
+
+    @Override
+    public void moveTop(int duration) {
+        RelativeLayout parent = binding.parent;
+        View memoView = parent.getChildAt(parent.getChildCount() - 1);
+        memoView.animate()
+                .translationYBy(-parent.getHeight())
+                .setDuration(duration);
+    }
+
+    @Override
+    public void moveDown(int duration) {
+        RelativeLayout parent = binding.parent;
+        View memoView = parent.getChildAt(parent.getChildCount() - 1);
+        memoView.animate()
+                .translationYBy(+parent.getHeight())
+                .setDuration(duration);
+    }
 }
