@@ -6,7 +6,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="240dp"
         android:layout_height="240dp"
-        android:background="#F6EC77">
+        android:background="@drawable/shape_ract_black"
+        android:translationZ="2dp">
 
         <TextView
             android:id="@+id/text"

@@ -1,5 +1,7 @@
 package flipview.com.karrel.memorecycler.presenter;
 
+import android.view.ViewTreeObserver;
+
 import flipview.com.karrel.memorecycler.view.EventView;
 
 /**
@@ -11,8 +13,16 @@ public interface MemoRecyclerPresenter {
 
     void addAdapter();
 
+    ViewTreeObserver.OnGlobalLayoutListener onGlobalLayout();
+
     interface View {
 
         void initChildViews();
+
+        void setupMemoViews();
+
+        void removeGloablLayoutListener();
+
+        void moveMemoView(float gapY);
     }
 }

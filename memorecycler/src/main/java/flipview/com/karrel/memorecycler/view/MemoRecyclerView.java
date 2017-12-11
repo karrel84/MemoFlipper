@@ -3,11 +3,11 @@ package flipview.com.karrel.memorecycler.view;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Rect;
+import android.os.Build;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Adapter;
 import android.widget.FrameLayout;
@@ -60,15 +60,69 @@ public class MemoRecyclerView extends FrameLayout implements MemoRecyclerPresent
     @Override
     public void initChildViews() {
         RLog.d();
-        RelativeLayout parent = binding.parent;
 
         // 뷰를 중앙에 추가 해야한다
         // 다음 추가할 뷰는 중앙에서 조금 이동해서 추가해야한다
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-        View view = adapter.getView(0, null, parent);
-        parent.addView(view, params);
+        RelativeLayout parent = binding.parent;
+        int count = adapter.getCount() < 5 ? adapter.getCount() : 5;
 
+        for (int i = 0; i < count; i++) {
+            View view = adapter.getView(i, null, parent);
+            parent.addView(view);
+        }
+        parent.getViewTreeObserver().addOnGlobalLayoutListener(presenter.onGlobalLayout());
+    }
 
+    @Override
+    public void setupMemoViews() {
+        RelativeLayout parent = binding.parent;
+
+        int count = parent.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View memoView = parent.getChildAt(i);
+
+            int left = parent.getWidth() / 2 - memoView.getWidth() / 2;
+            int top = parent.getHeight() / 2 - memoView.getHeight() / 2;
+            int right = left + memoView.getWidth();
+            int bottom = top + memoView.getHeight();
+
+            left += i * 10;
+            top += i * 10;
+            right += i * 10;
+            bottom += i * 10;
+
+            memoView.setX(left);
+            memoView.setY(top);
+            Rect rect = new Rect(left, top, right, bottom);
+            memoView.setTag(rect);
+        }
+        bringToFrontViews();
+    }
+
+    private void bringToFrontViews() {
+        RelativeLayout parent = binding.parent;
+        int count = parent.getChildCount();
+        for (int i = count - 1; i >= 0; i--) {
+            View memoView = parent.getChildAt(i);
+            memoView.bringToFront();
+        }
+    }
+
+    @Override
+    public void removeGloablLayoutListener() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            ViewTreeObserver.OnGlobalLayoutListener listener = presenter.onGlobalLayout();
+            if (listener != null)
+                binding.parent.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
+        }
+    }
+
+    @Override
+    public void moveMemoView(float gapY) {
+        RelativeLayout parent = binding.parent;
+        View memoView = parent.getChildAt(parent.getChildCount() - 1);
+        Rect rect = (Rect) memoView.getTag();
+        memoView.setY(rect.top + gapY);
     }
 }

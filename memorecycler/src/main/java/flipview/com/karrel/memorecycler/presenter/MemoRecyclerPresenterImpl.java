@@ -1,6 +1,7 @@
 package flipview.com.karrel.memorecycler.presenter;
 
 import android.view.MotionEvent;
+import android.view.ViewTreeObserver;
 
 import com.karrel.mylibrary.RLog;
 
@@ -12,6 +13,7 @@ import flipview.com.karrel.memorecycler.view.EventView;
 
 public class MemoRecyclerPresenterImpl implements MemoRecyclerPresenter {
     private MemoRecyclerPresenter.View view;
+    private ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener;
 
     public MemoRecyclerPresenterImpl(View view) {
         this.view = view;
@@ -27,6 +29,16 @@ public class MemoRecyclerPresenterImpl implements MemoRecyclerPresenter {
         // 아답터가 세팅되었다.
         // 아답터에 들어갈 뷰들을 세팅하자
         view.initChildViews();
+    }
+
+    @Override
+    public ViewTreeObserver.OnGlobalLayoutListener onGlobalLayout() {
+        if (onGlobalLayoutListener == null)
+            onGlobalLayoutListener = () -> {
+                view.setupMemoViews();
+                view.removeGloablLayoutListener();
+            };
+        return onGlobalLayoutListener;
     }
 
     private EventView.EventViewListener eventListener = new EventView.EventViewListener() {
@@ -58,6 +70,9 @@ public class MemoRecyclerPresenterImpl implements MemoRecyclerPresenter {
         @Override
         public void onScroll(MotionEvent e1, MotionEvent e2) {
             RLog.d("\n" + String.format("x1 : %s, y1 : %s\nx2 : %s, y2 %s", e1.getX(), e1.getY(), e2.getX(), e2.getY()));
+
+            float gapY = e2.getY() - e1.getY();
+            view.moveMemoView(gapY);
         }
 
         @Override
