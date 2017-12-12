@@ -94,9 +94,14 @@ public class EventView extends View {
 
     private GestureDetector.OnGestureListener gestureListener = new GestureDetector.OnGestureListener() {
 
+        // 상하로 스크롤일지 좌우로 스크롤일지
+        boolean isVertical, isHolizontal;
+
         @Override
         public boolean onDown(MotionEvent e) {
             listener.onDown(e);
+            isVertical = false;
+            isHolizontal = false;
             return true;
         }
 
@@ -111,7 +116,21 @@ public class EventView extends View {
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            RLog.e(String.format("onScroll isHolizontal : %s, isVertical : %s", isHolizontal, isVertical));
+
+            if (isHolizontal) return false;
             listener.onScroll(e1, e2);
+
+            float getX = e1.getX() - e2.getX();
+            float getY = e1.getY() - e2.getY();
+
+            if (isVertical) return true;
+
+            // 좌우 이동
+            isHolizontal = Math.abs(getX) > SWIPE_MIN_DISTANCE;
+            // 상하 이동
+            isVertical = Math.abs(getY) > SWIPE_MIN_DISTANCE;
+
             return true;
         }
 
@@ -217,12 +236,23 @@ public class EventView extends View {
     }
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        RLog.e("dispatchTouchEvent");
+
+        return super.dispatchTouchEvent(event);
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
             listener.onUp(event);
         }
 
+        if (true) {
+            detector.onTouchEvent(event);
+            return false;
+        }
         return detector.onTouchEvent(event);
     }
 }

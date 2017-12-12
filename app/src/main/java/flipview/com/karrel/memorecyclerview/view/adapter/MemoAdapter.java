@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import java.util.List;
 
 import flipview.com.karrel.memorecyclerview.R;
+import flipview.com.karrel.memorecyclerview.databinding.ViewCardABinding;
+import flipview.com.karrel.memorecyclerview.databinding.ViewCardBBinding;
 import flipview.com.karrel.memorecyclerview.databinding.ViewMemoBinding;
 import flipview.com.karrel.memorecyclerview.model.MemoData;
 
@@ -45,6 +47,13 @@ public class MemoAdapter extends BaseAdapter {
             ViewMemoBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.view_memo, parent, false);
             convertView = binding.getRoot();
             convertView.setTag(binding);
+
+            ViewCardABinding aBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.view_card_a, null, false);
+            binding.flipCard.setCardA(aBinding.getRoot());
+
+
+            ViewCardBBinding bBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.view_card_b, null, false);
+            binding.flipCard.setCardB(bBinding.getRoot());
         }
 
         // binding
@@ -55,7 +64,7 @@ public class MemoAdapter extends BaseAdapter {
         // data model
         MemoData data = memoData.get(position);
         // setup data
-        binding.text.setText(data.front);
+//        binding.text.setText(data.front);
 
         return convertView;
     }
