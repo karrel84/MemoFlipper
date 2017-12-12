@@ -1,6 +1,8 @@
 package flipview.com.karrel.memorecycler.presenter;
 
+import android.animation.Animator;
 import android.view.MotionEvent;
+import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 
 import com.karrel.mylibrary.RLog;
@@ -35,8 +37,9 @@ public class MemoRecyclerPresenterImpl implements MemoRecyclerPresenter {
     public ViewTreeObserver.OnGlobalLayoutListener onGlobalLayout() {
         if (onGlobalLayoutListener == null)
             onGlobalLayoutListener = () -> {
-                view.setupMemoViews();
                 view.removeGloablLayoutListener();
+                // 뷰의 위치 초기화
+                view.arrangementViews(false);
             };
         return onGlobalLayoutListener;
     }
@@ -59,15 +62,84 @@ public class MemoRecyclerPresenterImpl implements MemoRecyclerPresenter {
         }
 
         @Override
-        public void swipeTop(int duration) {
+        public void flingToTop(int duration) {
             RLog.e("\n" + duration + "");
-            view.moveTop(duration);
+
+            ViewPropertyAnimator animator = view.flingTop(duration);
+            if (animator == null) return;
+            animator.setListener(new Animator.AnimatorListener() {
+                boolean endAnimation = false;
+
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (endAnimation) return;
+                    endAnimation = true;
+                    RLog.d("onAnimationEnd");
+                    animation.removeAllListeners();
+
+                    // 애니메이션이 끝나면 해당 뷰를 삭제한다.
+                    android.view.View deletedView = view.deleteFrontMemo();
+                    // 다음에 추가할 메모가 있다면은 추가해준다.
+                    view.addMemoHasNext(deletedView);
+
+                    // 다시 정렬(마지막뷰는 애니메이션 하지않음)
+                    view.arrangementViewsWithoutLastView();
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+
         }
 
         @Override
-        public void swipeBottom(int duration) {
+        public void flingToBottom(int duration) {
             RLog.e("\n" + duration + "");
-            view.moveDown(duration);
+            ViewPropertyAnimator animator = view.flingDown(duration);
+            if (animator == null) return;
+            animator.setListener(new Animator.AnimatorListener() {
+                boolean endAnimation = false;
+
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (endAnimation) return;
+                    endAnimation = true;
+                    RLog.d("onAnimationEnd");
+                    animation.removeAllListeners();
+
+                    view.rewindLastView();
+                    // 다시 정렬(마지막뷰는 애니메이션 하지않음)
+                    view.arrangementViews(true);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+
         }
 
         @Override

@@ -25,9 +25,9 @@ public class EventView extends View {
 
         void swipeRight(long duration);
 
-        void swipeTop(int duration);
+        void flingToTop(int duration);
 
-        void swipeBottom(int duration);
+        void flingToBottom(int duration);
 
         void onScroll(MotionEvent e1, MotionEvent e2);
 
@@ -137,11 +137,11 @@ public class EventView extends View {
     };
 
     private void swipeBottom(int duration) {
-        listener.swipeBottom(duration);
+        listener.flingToBottom(duration);
     }
 
     private void swipeTop(int duration) {
-        listener.swipeTop(duration);
+        listener.flingToTop(duration);
     }
 
     private void swipeLeft(long duration) {

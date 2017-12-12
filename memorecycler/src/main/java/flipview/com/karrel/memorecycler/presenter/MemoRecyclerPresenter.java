@@ -1,5 +1,6 @@
 package flipview.com.karrel.memorecycler.presenter;
 
+import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 
 import flipview.com.karrel.memorecycler.view.EventView;
@@ -19,16 +20,24 @@ public interface MemoRecyclerPresenter {
 
         void initChildViews();
 
-        void setupMemoViews();
-
         void removeGloablLayoutListener();
 
         void moveMemoView(float gapY);
 
         void animOrigin();
 
-        void moveTop(int duration);
+        ViewPropertyAnimator flingTop(int duration);
 
-        void moveDown(int duration);
+        ViewPropertyAnimator flingDown(int duration);
+
+        android.view.View deleteFrontMemo();
+
+        void arrangementViews(boolean isAnimation);
+
+        void addMemoHasNext(android.view.View deletedView);
+
+        void arrangementViewsWithoutLastView();
+
+        void rewindLastView();
     }
 }
