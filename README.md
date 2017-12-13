@@ -2,7 +2,7 @@
 메모를 넘기듯 볼수잇는 리스트뷰를 만들고자한다.
 
 # 스크린샷
-<img src="https://github.com/karrel84/MemoFlipper/blob/master/screenshot.gif" width="600" height="1000" />
+<img src="https://github.com/karrel84/MemoFlipper/blob/master/screenshot.gif" width="400" height="600" />
 
 
 
