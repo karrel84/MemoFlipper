@@ -1,4 +1,4 @@
-# MemoRecyclerView
+# MemoFlipper
 메모를 넘기듯 볼수잇는 리스트뷰를 만들고자한다.
 
 # 스크린샷
