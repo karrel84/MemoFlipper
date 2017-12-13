@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
@@ -168,6 +169,12 @@ public class MemoRecyclerView extends FrameLayout implements MemoRecyclerPresent
     public void rewindLastView() {
         // 첫번째 뷰를 제일 뒤로 옮긴
         memoViews.add(memoViews.poll());
+    }
+
+    @Override
+    public void memoViewOnTouchEvent(MotionEvent event) {
+        View memoView = memoViews.peek();
+        memoView.onTouchEvent(event);
     }
 
     @Override

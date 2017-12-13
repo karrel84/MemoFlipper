@@ -1,5 +1,6 @@
 package flipview.com.karrel.memorecycler.presenter;
 
+import android.view.MotionEvent;
 import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 
@@ -39,5 +40,7 @@ public interface MemoRecyclerPresenter {
         void arrangementViewsWithoutLastView();
 
         void rewindLastView();
+
+        void memoViewOnTouchEvent(MotionEvent event);
     }
 }

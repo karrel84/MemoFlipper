@@ -32,6 +32,8 @@ public class EventView extends View {
         void onScroll(MotionEvent e1, MotionEvent e2);
 
         void onDown(MotionEvent e);
+
+        void onTouchEvent(MotionEvent event);
     }
 
     private GestureDetector detector;
@@ -118,7 +120,7 @@ public class EventView extends View {
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             RLog.e(String.format("onScroll isHolizontal : %s, isVertical : %s", isHolizontal, isVertical));
 
-            if (isHolizontal) return false;
+            if (isHolizontal) return true;
             listener.onScroll(e1, e2);
 
             float getX = e1.getX() - e2.getX();
@@ -245,14 +247,12 @@ public class EventView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
+        listener.onTouchEvent(event);
+
         if (event.getAction() == MotionEvent.ACTION_UP) {
             listener.onUp(event);
         }
 
-        if (true) {
-            detector.onTouchEvent(event);
-            return false;
-        }
         return detector.onTouchEvent(event);
     }
 }

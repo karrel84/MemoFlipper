@@ -154,5 +154,10 @@ public class MemoRecyclerPresenterImpl implements MemoRecyclerPresenter {
         public void onDown(MotionEvent e) {
             RLog.d("\n" + String.format("x : %s, y : %s", e.getX(), e.getY()));
         }
+
+        @Override
+        public void onTouchEvent(MotionEvent event) {
+            view.memoViewOnTouchEvent(event);
+        }
     };
 }
