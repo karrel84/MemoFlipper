@@ -36,13 +36,18 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     private void setupAdapter() {
         // create dummy data
         List<MemoData> memoData = new ArrayList<>();
-        memoData.add(new MemoData("Swift", ""));
-        memoData.add(new MemoData("꼼꼼한 재은 씨의", ""));
-        memoData.add(new MemoData("실전편", ""));
-        memoData.add(new MemoData("안녕하세요", ""));
-        memoData.add(new MemoData("이주영입니다.", ""));
-        memoData.add(new MemoData("커스텀", ""));
-        memoData.add(new MemoData("메모를 만들고 있어요", ""));
+        memoData.add(new MemoData("미안해 솔직하지 못한 내가", ""));
+        memoData.add(new MemoData("지금 이 순간이 꿈이라면", ""));
+        memoData.add(new MemoData("살며시 너에게로 다가가", ""));
+        memoData.add(new MemoData("모든걸 고백할텐데", ""));
+        memoData.add(new MemoData("전화도 할 수 없는 밤이 오면", ""));
+        memoData.add(new MemoData("자꾸만 설레이는 내 마음", ""));
+        memoData.add(new MemoData("동화속 마법에 세계로", ""));
+        memoData.add(new MemoData("손짓하는 저달빛", ""));
+        memoData.add(new MemoData("밤하늘 저멀리서 빛나고 있는", ""));
+        memoData.add(new MemoData("꿈결 같은 우리의 사랑", ""));
+        memoData.add(new MemoData("수없이 많은 별들 중에서 당신을 만날수 있는건", ""));
+        memoData.add(new MemoData("결코 우연이라 할 수 없어 기적의 세일러문", ""));
 
         BaseAdapter adapter = new MemoAdapter(memoData);
 

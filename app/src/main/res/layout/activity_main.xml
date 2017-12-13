@@ -9,7 +9,7 @@
         tools:context="flipview.com.karrel.memorecyclerview.view.MainActivity">
 
 
-        <flipview.com.karrel.memorecycler.view.MemoRecyclerView
+        <flipview.com.karrel.memorecycler.view.MemoFlipper
             android:id="@+id/memoRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"

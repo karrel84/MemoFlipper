@@ -47,13 +47,6 @@ public class MemoAdapter extends BaseAdapter {
             ViewMemoBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.view_memo, parent, false);
             convertView = binding.getRoot();
             convertView.setTag(binding);
-
-            ViewCardABinding aBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.view_card_a, null, false);
-            binding.flipCard.setCardA(aBinding.getRoot());
-
-
-            ViewCardBBinding bBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.view_card_b, null, false);
-            binding.flipCard.setCardB(bBinding.getRoot());
         }
 
         // binding
@@ -64,7 +57,7 @@ public class MemoAdapter extends BaseAdapter {
         // data model
         MemoData data = memoData.get(position);
         // setup data
-//        binding.text.setText(data.front);
+        binding.text.setText(data.front);
 
         return convertView;
     }

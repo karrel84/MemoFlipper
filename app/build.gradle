@@ -36,5 +36,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.github.karrel84:FlipCardView:1.01'
 
-    implementation project(':memorecycler')
+    implementation project(':memofliper')
 }

@@ -30,7 +30,7 @@ import flipview.com.karrel.memorecycler.presenter.MemoRecyclerPresenterImpl;
  * Created by Rell on 2017. 12. 7..
  */
 
-public class MemoRecyclerView extends FrameLayout implements MemoRecyclerPresenter.View {
+public class MemoFlipper extends FrameLayout implements MemoRecyclerPresenter.View {
 
     private Adapter adapter;
     private ViewMemorecyclerBinding binding;
@@ -38,17 +38,17 @@ public class MemoRecyclerView extends FrameLayout implements MemoRecyclerPresent
     private Queue<View> memoViews;
     private int position;
 
-    public MemoRecyclerView(Context context) {
+    public MemoFlipper(Context context) {
         super(context);
         initView();
     }
 
-    public MemoRecyclerView(Context context, AttributeSet attrs) {
+    public MemoFlipper(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
     }
 
-    public MemoRecyclerView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MemoFlipper(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
     }
@@ -174,6 +174,7 @@ public class MemoRecyclerView extends FrameLayout implements MemoRecyclerPresent
     @Override
     public void memoViewOnTouchEvent(MotionEvent event) {
         View memoView = memoViews.peek();
+        if (memoView == null) return ;
         memoView.onTouchEvent(event);
     }
 

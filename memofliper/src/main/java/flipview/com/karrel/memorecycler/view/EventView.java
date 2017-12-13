@@ -42,6 +42,9 @@ public class EventView extends View {
     private static final int SWIPE_MIN_DISTANCE = 50;
     private static final int SWIPE_THRESHOLD_VELOCITY = 400;
 
+    // 상하로 스크롤일지 좌우로 스크롤일지
+    boolean isVertical, isHolizontal;
+
     /**
      * 최소 가속도
      */
@@ -95,9 +98,6 @@ public class EventView extends View {
     }
 
     private GestureDetector.OnGestureListener gestureListener = new GestureDetector.OnGestureListener() {
-
-        // 상하로 스크롤일지 좌우로 스크롤일지
-        boolean isVertical, isHolizontal;
 
         @Override
         public boolean onDown(MotionEvent e) {
@@ -238,21 +238,22 @@ public class EventView extends View {
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        RLog.e("dispatchTouchEvent");
-
-        return super.dispatchTouchEvent(event);
-    }
-
-    @Override
     public boolean onTouchEvent(MotionEvent event) {
-
-        listener.onTouchEvent(event);
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
             listener.onUp(event);
+            isVertical = false;
+            isHolizontal = false;
         }
 
-        return detector.onTouchEvent(event);
+        if (!isVertical || event.getAction() == MotionEvent.ACTION_UP) {
+            listener.onTouchEvent(event);
+        }
+
+        if (!isHolizontal) {
+            detector.onTouchEvent(event);
+        }
+
+        return true;
     }
 }

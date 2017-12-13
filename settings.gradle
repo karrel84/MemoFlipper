@@ -1,1 +1,1 @@
-include ':app', ':memorecycler'
+include ':app', ':memofliper'
