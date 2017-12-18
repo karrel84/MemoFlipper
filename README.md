@@ -19,7 +19,7 @@
 * app build.gradle의 dependencies에 라이브러리 주소를 추가합니다.
 ```java
 	dependencies {
-	        compile 'com.github.karrel84:MemoFlipper:1.0'
+		compile 'com.github.karrel84:MemoFlipper:1.0'
 	}
 ```
 
@@ -52,7 +52,7 @@
 ```
 * memoFlipper에 BaseAdapter를 넣어줍니다.
 ```java
-            binding.memoFlipper.setAdapter(adapter);
+binding.memoFlipper.setAdapter(adapter);
 
 ```
 
