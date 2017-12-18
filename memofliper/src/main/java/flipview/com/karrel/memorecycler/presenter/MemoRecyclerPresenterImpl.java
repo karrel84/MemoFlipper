@@ -1,9 +1,11 @@
 package flipview.com.karrel.memorecycler.presenter;
 
 import android.animation.Animator;
+import android.database.DataSetObserver;
 import android.view.MotionEvent;
 import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
+import android.widget.Adapter;
 
 import com.karrel.mylibrary.RLog;
 
@@ -13,9 +15,10 @@ import flipview.com.karrel.memorecycler.view.EventView;
  * Created by Rell on 2017. 12. 7..
  */
 
-public class MemoRecyclerPresenterImpl implements MemoRecyclerPresenter {
+public class MemoRecyclerPresenterImpl extends DataSetObserver implements MemoRecyclerPresenter {
     private MemoRecyclerPresenter.View view;
     private ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener;
+    private Adapter mAdapter;
 
     public MemoRecyclerPresenterImpl(View view) {
         this.view = view;
@@ -27,10 +30,12 @@ public class MemoRecyclerPresenterImpl implements MemoRecyclerPresenter {
     }
 
     @Override
-    public void addAdapter() {
+    public void setAdapter(Adapter adapter) {
+        RLog.e("setAdapter");
+
+        mAdapter = adapter;
+        adapter.registerDataSetObserver(this);
         // 아답터가 세팅되었다.
-        // 아답터에 들어갈 뷰들을 세팅하자
-        view.initChildViews();
     }
 
     @Override
@@ -42,6 +47,11 @@ public class MemoRecyclerPresenterImpl implements MemoRecyclerPresenter {
                 view.arrangementViews(false);
             };
         return onGlobalLayoutListener;
+    }
+
+    @Override
+    public void onDetached() {
+        mAdapter.unregisterDataSetObserver(this);
     }
 
     private EventView.EventViewListener eventListener = new EventView.EventViewListener() {
@@ -160,4 +170,24 @@ public class MemoRecyclerPresenterImpl implements MemoRecyclerPresenter {
             view.memoViewOnTouchEvent(event);
         }
     };
+
+    @Override
+    public void onChanged() {
+        super.onChanged();
+
+        RLog.e("onChanged");
+
+        // 아답터에 들어갈 뷰들을 세팅하자
+        view.initChildViews();
+    }
+
+    @Override
+    public void onInvalidated() {
+        super.onInvalidated();
+
+        RLog.e("onInvalidated");
+
+        // 아답터에 들어갈 뷰들을 세팅하자
+        view.initChildViews();
+    }
 }

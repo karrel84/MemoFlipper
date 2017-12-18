@@ -3,6 +3,7 @@ package flipview.com.karrel.memorecycler.presenter;
 import android.view.MotionEvent;
 import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
+import android.widget.Adapter;
 
 import flipview.com.karrel.memorecycler.view.EventView;
 
@@ -13,9 +14,11 @@ import flipview.com.karrel.memorecycler.view.EventView;
 public interface MemoRecyclerPresenter {
     EventView.EventViewListener eventListener();
 
-    void addAdapter();
+    void setAdapter(Adapter adapter);
 
     ViewTreeObserver.OnGlobalLayoutListener onGlobalLayout();
+
+    void onDetached();
 
     interface View {
 

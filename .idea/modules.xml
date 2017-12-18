@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MemoRecyclerView.iml" filepath="$PROJECT_DIR$/MemoRecyclerView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/memofliper/memofliper.iml" filepath="$PROJECT_DIR$/memofliper/memofliper.iml" />
       <module fileurl="file://$PROJECT_DIR$/memofliper/memorecycler.iml" filepath="$PROJECT_DIR$/memofliper/memorecycler.iml" />
     </modules>
   </component>

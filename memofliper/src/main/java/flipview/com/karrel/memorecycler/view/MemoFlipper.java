@@ -62,7 +62,7 @@ public class MemoFlipper extends FrameLayout implements MemoRecyclerPresenter.Vi
 
     public void setAdapter(Adapter adapter) {
         this.adapter = adapter;
-        presenter.addAdapter();
+        presenter.setAdapter(adapter);
     }
 
     @Override
@@ -174,7 +174,7 @@ public class MemoFlipper extends FrameLayout implements MemoRecyclerPresenter.Vi
     @Override
     public void memoViewOnTouchEvent(MotionEvent event) {
         View memoView = memoViews.peek();
-        if (memoView == null) return ;
+        if (memoView == null) return;
         memoView.onTouchEvent(event);
     }
 
@@ -239,5 +239,11 @@ public class MemoFlipper extends FrameLayout implements MemoRecyclerPresenter.Vi
         View view = memoViews.poll();
         binding.parent.removeView(view);
         return view;
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        presenter.onDetached();
     }
 }

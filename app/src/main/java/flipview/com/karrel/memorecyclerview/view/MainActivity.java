@@ -50,7 +50,11 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         memoData.add(new MemoData("결코 우연이라 할 수 없어 기적의 세일러문", ""));
 
         BaseAdapter adapter = new MemoAdapter(memoData);
-
         binding.memoRecyclerView.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
+
+
+//        adapter.add();
     }
 }
