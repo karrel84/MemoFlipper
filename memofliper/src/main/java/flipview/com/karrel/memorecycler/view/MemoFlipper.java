@@ -35,7 +35,7 @@ public class MemoFlipper extends FrameLayout implements MemoRecyclerPresenter.Vi
     private Adapter adapter;
     private ViewMemorecyclerBinding binding;
     private MemoRecyclerPresenter presenter;
-    private Queue<View> memoViews;
+    private Queue<View> memoViews = new ArrayDeque<>(); // 뷰들을 저장할 컬렉션을 만든다.
     private int position;
 
     public MemoFlipper(Context context) {
@@ -73,9 +73,6 @@ public class MemoFlipper extends FrameLayout implements MemoRecyclerPresenter.Vi
         // 다음 추가할 뷰는 중앙에서 조금 이동해서 추가해야한다
         RelativeLayout parent = binding.parent;
         int count = adapter.getCount() < 5 ? adapter.getCount() : 5;
-
-        // 뷰들을 저장할 컬렉션을 만든다.
-        memoViews = new ArrayDeque<>();
 
         // 차일드뷰를 마들어서 저장한다.
         for (int i = 0; i < count; i++) {
