@@ -32,11 +32,18 @@ import flipview.com.karrel.memorecycler.presenter.MemoRecyclerPresenterImpl;
 
 public class MemoFlipper extends FrameLayout implements MemoRecyclerPresenter.View {
 
+    public interface MemoFlipperListener {
+        void onRemovedItem(View view);
+    }
+
+    private MemoFlipperListener listener;
+
     private Adapter adapter;
     private ViewMemorecyclerBinding binding;
     private MemoRecyclerPresenter presenter;
     private Queue<View> memoViews = new ArrayDeque<>(); // 뷰들을 저장할 컬렉션을 만든다.
     private int position;
+    public int capacity = 5;
 
     public MemoFlipper(Context context) {
         super(context);
@@ -53,6 +60,14 @@ public class MemoFlipper extends FrameLayout implements MemoRecyclerPresenter.Vi
         initView();
     }
 
+    /**
+     * 메모가 삭제되면 리스너를 통해서 삭제되었다고 호출해주어야한다..
+     * @param listener
+     */
+    public void setListener(MemoFlipperListener listener) {
+        this.listener = listener;
+    }
+
     private void initView() {
         presenter = new MemoRecyclerPresenterImpl(this);
 
@@ -65,6 +80,10 @@ public class MemoFlipper extends FrameLayout implements MemoRecyclerPresenter.Vi
         presenter.setAdapter(adapter);
     }
 
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
     @Override
     public void initChildViews() {
         RLog.d("initChildViews");
@@ -72,7 +91,12 @@ public class MemoFlipper extends FrameLayout implements MemoRecyclerPresenter.Vi
         // 뷰를 중앙에 추가 해야한다
         // 다음 추가할 뷰는 중앙에서 조금 이동해서 추가해야한다
         RelativeLayout parent = binding.parent;
-        int count = adapter.getCount() < 5 ? adapter.getCount() : 5;
+        parent.removeAllViews();
+        while (!memoViews.isEmpty()) {
+            memoViews.remove();
+        }
+        position = 0;
+        int count = adapter.getCount() < capacity ? adapter.getCount() : capacity;
 
         // 차일드뷰를 마들어서 저장한다.
         for (int i = 0; i < count; i++) {
@@ -102,6 +126,8 @@ public class MemoFlipper extends FrameLayout implements MemoRecyclerPresenter.Vi
 
             left += i * 10;
             top += i * 10;
+
+            RLog.d(String.format("left : %s, top : %s", left, top));
 
             memoView.bringToFront();
             if (isAnimation) {
@@ -194,6 +220,7 @@ public class MemoFlipper extends FrameLayout implements MemoRecyclerPresenter.Vi
         View parent = binding.parent;
         int top = parent.getHeight() / 2 - memoView.getHeight() / 2;
         memoView.setY(top + gapY);
+
     }
 
     @Override
@@ -235,6 +262,12 @@ public class MemoFlipper extends FrameLayout implements MemoRecyclerPresenter.Vi
         // 제일위에 메모뷰를 삭제해야한다.
         View view = memoViews.poll();
         binding.parent.removeView(view);
+        // 하아 몇번째 아이템이 삭제되었는지 어떻게 알 수 있을까...
+
+        if(listener != null){
+            listener.onRemovedItem(view);
+        }
+
         return view;
     }
 

@@ -3,11 +3,15 @@ package flipview.com.karrel.memorecyclerview.view.adapter;
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
 import android.databinding.DataBindingUtil;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.karrel.mylibrary.RLog;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import flipview.com.karrel.memorecyclerview.R;
@@ -22,14 +26,10 @@ import flipview.com.karrel.memorecyclerview.model.MemoData;
 
 public class MemoAdapter extends BaseAdapter {
 
-    private List<MemoData> memoData;
+    private List<MemoData> memoData = new ArrayList<>();
 
     DataSetObservable mDataSetObservable = new DataSetObservable(); // DataSetObservable(DataSetObserver)의 생성
 
-
-    public MemoAdapter(List<MemoData> memoData) {
-        this.memoData = memoData;
-    }
 
     @Override
     public int getCount() {
@@ -51,13 +51,13 @@ public class MemoAdapter extends BaseAdapter {
         if (convertView == null) {
             ViewMemoBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.view_memo, parent, false);
             convertView = binding.getRoot();
-            convertView.setTag(binding);
+            Pair<ViewMemoBinding, Integer> pair = new Pair<>(binding, position);
+            convertView.setTag(pair);
         }
 
         // binding
-        ViewMemoBinding binding = (ViewMemoBinding) convertView.getTag();
-        if (convertView.getTag() == null) return convertView;
-        if (!(convertView.getTag() instanceof ViewMemoBinding)) return convertView;
+        Pair<ViewMemoBinding, Integer> pair = (Pair<ViewMemoBinding, Integer>) convertView.getTag();
+        ViewMemoBinding binding = pair.first;
 
         // data model
         MemoData data = memoData.get(position);
@@ -81,5 +81,19 @@ public class MemoAdapter extends BaseAdapter {
     @Override
     public void notifyDataSetChanged() { // 위에서 연결된 DataSetObserver를 통한 변경 확인
         mDataSetObservable.notifyChanged();
+    }
+
+    public void addItem(String s) {
+        RLog.d(s);
+        MemoData data = new MemoData(s, s);
+        memoData.add(data);
+        notifyDataSetChanged();
+    }
+
+    public void removeItem(View view) {
+        Pair<ViewMemoBinding, Integer> pair = (Pair<ViewMemoBinding, Integer>) view.getTag();
+        int index = pair.second;
+        memoData.remove(index);
+        notifyDataSetChanged();
     }
 }
